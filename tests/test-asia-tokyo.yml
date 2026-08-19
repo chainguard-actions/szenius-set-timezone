@@ -1,0 +1,33 @@
+name: Test Asia/Tokyo timezone
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Install timedatectl and sudo stubs
+        run: |
+          mkdir -p "$HOME/bin"
+          printf '#!/bin/sh\nif [ "$1" = "set-timezone" ] && [ -n "$2" ]; then\n  echo "$2" > /tmp/set-timezone-result\n  echo "Timezone set to $2"\n  exit 0\nfi\nexit 1\n' > "$HOME/bin/timedatectl"
+          printf '#!/bin/sh\nexec "$@"\n' > "$HOME/bin/sudo"
+          chmod +x "$HOME/bin/timedatectl" "$HOME/bin/sudo"
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+      - id: set-tz
+        uses: .
+        with:
+          timezoneLinux: "Asia/Tokyo"
+      - name: Assert timezone was set to Asia/Tokyo
+        run: |
+          if [ -f /tmp/set-timezone-result ]; then
+            TZ_ACTUAL=$(cat /tmp/set-timezone-result)
+            echo "actual timezone: $TZ_ACTUAL"
+            if [ "$TZ_ACTUAL" != "Asia/Tokyo" ]; then
+              echo "FAIL: expected Asia/Tokyo but got $TZ_ACTUAL"
+              exit 1
+            fi
+            echo "PASS: timezone set to Asia/Tokyo"
+          else
+            echo "FAIL: timezone result file not found"
+            exit 1
+          fi
