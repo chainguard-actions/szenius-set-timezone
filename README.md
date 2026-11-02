@@ -6,9 +6,9 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 ## Versions
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v2.0 | [`v2.0`](https://github.com/chainguard-actions/szenius-set-timezone/tree/v2.0) | [`1f9716b`](https://github.com/szenius/set-timezone/commit/1f9716b0f7120e344f0c62bb7b1ee98819aefd42) |
+| Version | Tag | Upstream commit | Hardening report |
+|---------|-----|-----------------|------------------|
+| v2.0 | [`v2.0`](https://github.com/chainguard-actions/szenius-set-timezone/tree/v2.0) | [`1f9716b`](https://github.com/szenius/set-timezone/commit/1f9716b0f7120e344f0c62bb7b1ee98819aefd42) | [`HARDENING.md`](https://github.com/chainguard-actions/szenius-set-timezone/blob/v2.0/HARDENING.md) |
 
 ## Privacy
 
